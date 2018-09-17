@@ -96,7 +96,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int = TODO()
+fun thirdDigit(number: Int): Int = (number / 100) % 10
 
 /**
  * Простая
@@ -114,7 +114,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
+fun accountInThreeYears(initial: Int, percent: Int): Int = initial + (1.0 + (percent / 100)) * (1.0 + (percent / 100)) * (1.0 + (percent / 100))
 
 /**
  * Простая
@@ -122,4 +122,4 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
  * Пользователь задает целое трехзначное число (например, 478).
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = TODO()
+fun numberRevert(number: Int): Int = (number / 100) + (((number / 10) % 10) * 10) + ((number % 10) * 100)

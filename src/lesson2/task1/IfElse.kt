@@ -1,7 +1,9 @@
 @file:Suppress("Посельский Павел группа: 13531/4")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -68,6 +70,7 @@ fun ageDescription(age: Int): String = when {
     age % 10 == 1 -> "$age год"
     else -> "0"
 }
+
 /**
  * Простая
  *
@@ -77,7 +80,15 @@ fun ageDescription(age: Int): String = when {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val S = v1 * t1 + v2 * t2 + v3 * t3
+    return when {
+        v1 * t1 > S / 2 -> S / 2 / v1
+        v1 * t1 + v2 * t2 > S / 2 -> t1 + (S / 2 - v1 * t1) / v2
+        else -> t1 + t2 + (S / 2 - v1 * t1 - v2 * t2) / v3
+    }
+}
+
 /**
  * Простая
  *
@@ -95,6 +106,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     kingX == rookX1 || kingY == rookY1 -> 1
     else -> 0
 }
+
 /**
  * Простая
  *
@@ -107,7 +119,8 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO ()
+                          bishopX: Int, bishopY: Int): Int = TODO()
+
 /**
  * Простая
  *
@@ -116,7 +129,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int = when {
+    sqr(c) == sqr(a) + sqr(b) || sqr(a) == sqr(c) + sqr(b) || sqr(b) == sqr(a) + sqr(c) -> 1
+    sqr(c) < sqr(a) + sqr(b) && sqr(a) < sqr(c) + sqr(b) && sqr(b) < sqr(a) + sqr(c) -> 0
+    a + b < c || a + c < b || c + b < a -> -1
+    else -> 2
+}
+
 /**
  * Средняя
  *
@@ -126,11 +145,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
-    (a < b) && (b == c) && (c < d) -> 0
-    (c < a) && (a == b) && (b < d) -> 0
+    ((a < b) && (b < c) && (c < d)) || ((c < d) && (d < a) && (a < b)) -> -1
     (c < a) && (a < b) && (b < d) -> (b - a)
     (a < c) && (c < b) && (b < d) -> (b - c)
+    (c < a) && (a < d) && (d < b) -> (d - a)
     (a < c) && (c < d) && (d < b) -> (d - c)
-    (c < a) && (a < d) && (d < b) -> (a - d)
-    else -> -1
+    else -> 0
 }

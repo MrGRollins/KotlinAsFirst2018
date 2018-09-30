@@ -1,6 +1,7 @@
 @file:Suppress("Посельский Павел 13531/4")
 package lesson1.task1
 
+import java.lang.Math.pow
 import kotlin.math.*
 
 /**
@@ -76,7 +77,8 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = 4.445 * 
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (PI / 180) * (grad + ((1 / 60) * (min + sec / 60)))
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (PI / (180 * 60 * 60)) * (60 * (grad * 60 + min) + sec)
+
 /**
  * Тривиальная
  *
@@ -104,7 +106,11 @@ fun thirdDigit(number: Int): Int = (number / 100) % 10
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = hoursArrive * 60 + minutesArrive - hoursDepart * 60 + minutesDepart
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
+    val Arrive = hoursArrive * 60 + minutesArrive
+    val Depart = hoursDepart * 60 + minutesDepart
+    return (Arrive - Depart)
+}
 
 /**
  * Простая
@@ -113,9 +119,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Int = ((initial * percent / 100 + initial) * percent / 100 + initial) * percent / 100 + initial
-
-
+fun accountInThreeYears(initial: Int, percent: Int): Double = initial * pow (1.0 + (percent / 100.0),3.0)
 
 /**
  * Простая

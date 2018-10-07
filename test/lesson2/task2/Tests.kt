@@ -30,6 +30,14 @@ class Tests {
         assertFalse(queenThreatens(7, 6, 5, 7))
     }
 
+    private fun assertFalse(queenThreatens: Unit) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun assertTrue(queenThreatens: Unit) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     @Test
     @Tag("Easy")
     fun daysInMonth() {

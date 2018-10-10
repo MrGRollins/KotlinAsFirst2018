@@ -36,7 +36,7 @@ class Tests {
     fun ageDescription() {
         assertEquals("1 год", ageDescription(1))
         assertEquals("21 год", ageDescription(21))
-        assertEquals("22 года", ageDescription(22))
+        assertEquals("4 года", ageDescription(4))
         assertEquals("5 лет", ageDescription(5))
         assertEquals("135 лет", ageDescription(135))
         assertEquals("199 лет", ageDescription(199))

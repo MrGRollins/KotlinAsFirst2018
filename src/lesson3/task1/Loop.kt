@@ -3,7 +3,7 @@ package lesson3.task1
 
 import kotlinx.html.InputType
 import kotlin.math.abs
-import kotlin.math.sqrt
+import kotlin.math.*
 
 /**
  * Пример
@@ -94,10 +94,11 @@ fun fib(n: Int): Int = TODO()
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 2
-    while ((k != (m * n)/2)) {
-        k += 1
-    }
+    val min = min(m, n)
+    val max = max(m, n)
+    var k = max
+    while (k % min != 0)
+        k += max
     return k
 }
 
@@ -107,30 +108,18 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var k = 2
-    while (n % k != 0){
-        k += 1
-    }
-    return k
+    for (k in 2..sqrt(n.toDouble()).toInt())
+        if (n % k == 0)
+            return k
+    return n
 }
-
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var max = 1
-    var k = 1
-    for (k in 2..n) {
-        while (max < n) {
-            if (n % k == 0) continue
-            max = k
-            if (k > n) break
-        }
-    }
-    return max
-}
+fun maxDivisor(n: Int): Int = TODO()
+
 /**
  * Простая
  *

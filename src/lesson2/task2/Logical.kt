@@ -1,8 +1,9 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "UNUSED_EXPRESSION")
 
 package lesson2.task2
 
 import lesson1.task1.sqr
+import lesson1.task1.trackLength
 import kotlin.math.abs
 
 /**
@@ -63,5 +64,3 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
         ((a <= r && b <= s) || (b <= r && a <= s) || (a <= r && c <= s) || (a <= s && c <= r) || (b <= r && c <= s) || (b <= s && c <= r))
-
-

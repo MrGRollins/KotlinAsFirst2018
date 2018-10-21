@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import java.util.Collections.list
 import kotlin.math.*
 import kotlin.math.sqrt
 
@@ -141,7 +142,15 @@ fun mean(list: List<Double>): Double {
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val sr = list.sum() / list.size
+
+    for (i in 0 until list.size){
+        val element = list[i]
+        list[i] = element - sr
+    }
+    return list
+}
 
 /**
  * Средняя

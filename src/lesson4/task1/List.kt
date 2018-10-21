@@ -117,13 +117,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double {
-    if (listOf(v).isEmpty()) return 0.0
-
-    val root = squares()
-
-    return abs(listOf(v).sum())
-}
+fun abs(v: List<Double>): Double = sqrt(v.map{ it * it }.sum())
 
 /**
  * Простая
@@ -156,12 +150,7 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double{
-    val vA = listOf(a)
-    val vB = listOf(b)
-
-    return listOf(vA).sum() * listOf(vB).sum()
-}
+fun times(a: List<Double>, b: List<Double>): Double = TODO()
 
 /**
  * Средняя

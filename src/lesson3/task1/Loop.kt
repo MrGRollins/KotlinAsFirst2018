@@ -2,7 +2,6 @@
 
 package lesson3.task1
 
-import kotlinx.html.InputType
 import lesson1.task1.sqr
 import kotlin.math.abs
 import kotlin.math.*
@@ -134,9 +133,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     val max = max(m, n)
     val min = min(m, n)
 
-    for (k in 2..sqrt(n.toDouble()).toInt()) {
+    for (k in 2..sqrt(n.toDouble()).toInt())
         if (m % k == 0 && n % k == 0) return false
-    }
     return max % min != 0 || min == 1
 }
 
@@ -148,10 +146,10 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var f = 1
-    for (k: Int in 1..n) {
+    var f = 0
+    for (k: Int in 1..sqrt(n.toDouble()).toInt()) {
         if (sqr(k) in m..n)
-            f++
+            f += 1
         if (f == 1) break
     }
     return f == 1
@@ -173,7 +171,20 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Написать функцию, которая находит, сколько шагов требуется для
  * этого для какого-либо начального X > 0.
  */
-fun collatzSteps(x: Int): Int = TODO()
+fun collatzSteps(x: Int): Int {
+    var step = 0
+    var k: Int = x
+
+    while (k != 1) {
+        step += 1
+
+        if (k % 2 == 0)
+            k = k / 2
+        else
+            k = k * 3 + 1
+    }
+    return step
+}
 
 /**
  * Средняя
@@ -200,7 +211,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var num = n
+    var res = 0
+
+    while (num > 0) {
+        res = res * 10 + num % 10
+        num /= 10
+    }
+    return res
+}
 
 /**
  * Средняя
@@ -211,7 +231,16 @@ fun revert(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var res = 0
+    var num = n
+
+    while (num > 0){
+        res = res * 10 + num % 10
+        num /= 10
+    }
+    return res == n
+}
 
 /**
  * Средняя

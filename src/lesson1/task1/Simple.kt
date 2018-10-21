@@ -2,7 +2,8 @@
 package lesson1.task1
 
 import java.lang.Math.pow
-import kotlin.math.*
+import kotlin.math.PI
+import kotlin.math.sqrt
 
 /**
  * Пример

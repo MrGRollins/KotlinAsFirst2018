@@ -3,9 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson1.task1.sqr
-import java.util.Collections.list
-import kotlin.math.*
 import kotlin.math.sqrt
 
 /**
@@ -118,7 +115,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = sqrt(v.map{ it * it }.sum())
+fun abs(v: List<Double>): Double = sqrt(v.map { it * it }.sum())
 
 /**
  * Простая
@@ -164,10 +161,8 @@ fun times(a: List<Double>, b: List<Double>): Double {
     var result = 0.0
 
     for (iA in 0 until a.size) {
-        val elementA = a[iA]
         for (iB in 0 until b.size) {
-            if (iA == iB){
-                val elementB = b[iB]
+            if (iA == iB) {
                 result += a[iA] * b[iB]
             }
         }
@@ -186,17 +181,16 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     if (p.isEmpty()) return 0.0
-    var mn = 0.0
-    var n = x
-    val p0 = p[0]
+
+    var result = 0.0
+    var thx = 1.0
 
     for (i in 0 until p.size) {
-        val element = p[i]
-        for (k in 0..i)
-            n = n * 1
-        mn = p0 + mn + element * n
+        val it = p[i]
+        result = result + thx * it
+        thx *= x
     }
-    return mn
+    return result
 }
 
 /**
@@ -209,7 +203,15 @@ fun polynom(p: List<Double>, x: Double): Double {
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+
+    for (i in 1 until list.size) {
+        val element1 = list[i]
+        val element0 = list[i - 1]
+        list[i] = element0 + element1
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -218,7 +220,21 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val del = mutableListOf<Int>()
+    var num = n
+
+    var it = 2
+
+    while (it <= num) {
+        if (num % it == 0) {
+            del.add(it)
+            num /= it
+        } else it += 1
+    }
+    return del
+}
+
 
 /**
  * Сложная
@@ -227,7 +243,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  * Множители в результирующей строке должны располагаться по возрастанию.
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя

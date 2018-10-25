@@ -34,7 +34,7 @@ fun isNumberHappy(number: Int): Boolean =
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int) =
-        ((x1 != x2) && (y1 != y2) && (abs(x1 - x2) != abs(y1 - y2))) == false
+        !((x1 != x2) && (y1 != y2) && (abs(x1 - x2) != abs(y1 - y2)))
 
 /**
  * Простая
@@ -54,14 +54,13 @@ fun daysInMonth(month: Int, year: Int) {
         }
     }
 
-    if (year % 400 != 0 || year % 4 != 0) {
+    if (year % 400 != 0 || year % 4 != 0)
         when {
             month == 2 -> 28
             month <= 7 && month % 2 == 1 || month > 7 && month % 2 == 0 -> 31 // 1,3,5,7 и 8,10,12
             month <= 7 && month != 2 && month % 2 == 0 || month > 7 && month % 2 == 1 -> 30
             else -> 0
         }
-    }
 }
 
 /**

@@ -147,7 +147,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var f = 0
-    for (k: Int in 1..sqrt(n.toDouble()).toInt()) {
+    for (k in 1..sqrt(n.toDouble()).toInt()) {
         if (sqr(k) in m..n)
             f += 1
         if (f == 1) break
@@ -173,7 +173,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 fun collatzSteps(x: Int): Int {
     var step = 0
-    var k: Int = x
+    var k = x
 
     while (k != 1) {
         step += 1
@@ -235,7 +235,7 @@ fun isPalindrome(n: Int): Boolean {
     var res = 0
     var num = n
 
-    while (num > 0){
+    while (num > 0) {
         res = res * 10 + num % 10
         num /= 10
     }

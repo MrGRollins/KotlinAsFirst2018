@@ -160,13 +160,8 @@ fun times(a: List<Double>, b: List<Double>): Double {
     if (a.isEmpty() || b.isEmpty()) return 0.0
     var result = 0.0
 
-    for (iA in 0 until a.size) {
-        for (iB in 0 until b.size) {
-            if (iA == iB) {
-                result += a[iA] * b[iB]
-            }
-        }
-    }
+    for (iA in 0 until a.size)
+        result += a[iA] * b[iA]
     return result
 }
 

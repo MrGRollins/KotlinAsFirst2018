@@ -175,14 +175,12 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    if (p.isEmpty()) return 0.0
-
     var result = 0.0
     var thx = 1.0
 
     for (i in 0 until p.size) {
         val it = p[i]
-        result = result + thx * it
+        result += thx * it
         thx *= x
     }
     return result
@@ -227,7 +225,7 @@ fun factorize(n: Int): List<Int> {
             num /= it
         } else it += 1
     }
-    return del
+    return del.sorted()
 }
 
 
@@ -247,7 +245,16 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val result = mutableListOf<Int>()
+    var num = n
+
+    do {
+        result.add(num % base)
+        num /= base
+    } while (num > 0)
+    return result.reversed()
+}
 
 /**
  * Сложная
@@ -266,8 +273,16 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var b = 1
+    var result = 0
 
+    digits.reversed().forEach {
+        result += it * b
+        b *= base
+    }
+    return result
+}
 /**
  * Сложная
  *
@@ -277,7 +292,17 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var b = 1
+    var result = 0
+
+    str.reversed().forEach() {
+        val txt = if (it <= '9') it - '0' else (it.toLowerCase() - 'a' + 10)
+        result += txt * b
+        b *= base
+    }
+    return result
+}
 
 /**
  * Сложная

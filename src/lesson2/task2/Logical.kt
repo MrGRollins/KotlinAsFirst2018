@@ -5,7 +5,6 @@ package lesson2.task2
 import lesson1.task1.sqr
 import lesson1.task1.trackLength
 import kotlin.math.abs
-import kotlin.Unit
 
 /**
  * Пример
@@ -43,24 +42,32 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int) =
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
 
-fun daysInMonth(month: Int, year: Int) {
-
-    if (year % 400 == 0 || year % 4 == 0) {
-        when {
-            month == 2 -> 29
-            month <= 7 && month % 2 == 1 || month > 7 && month % 2 == 0 -> 31 // 1,3,5,7 и 8,10,12
-            month <= 7 && month != 2 && month % 2 == 0 || month > 7 && month % 2 == 1 -> 30
-            else -> 0
-        }
+fun daysInMonth(month: Int, year: Int): Int {
+    fun isYear(year: Int) = when {
+        year % 400 == 0 -> true
+        year % 100 == 0 -> false
+        year % 4 == 0 -> true
+        else -> false
     }
 
-    if (year % 400 != 0 || year % 4 != 0)
-        when {
-            month == 2 -> 28
+    val xYear = isYear(year)
+    val month2 = if (xYear) 29 else 28
+
+    if (year % 400 != 0)
+        return when {
+            month == 2 -> month2
             month <= 7 && month % 2 == 1 || month > 7 && month % 2 == 0 -> 31 // 1,3,5,7 и 8,10,12
             month <= 7 && month != 2 && month % 2 == 0 || month > 7 && month % 2 == 1 -> 30
             else -> 0
+
         }
+    else (year % 400 != 0 || year % 100 == 0)
+    return when {
+        month == 2 -> month2
+        month <= 7 && month % 2 == 1 || month > 7 && month % 2 == 0 -> 31 // 1,3,5,7 и 8,10,12
+        month <= 7 && month != 2 && month % 2 == 0 || month > 7 && month % 2 == 1 -> 30
+        else -> 0
+    }
 }
 
 /**

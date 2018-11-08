@@ -53,15 +53,6 @@ fun daysInMonth(month: Int, year: Int): Int {
     val xYear = isYear(year)
     val month2 = if (xYear) 29 else 28
 
-    if (year % 400 != 0)
-        return when {
-            month == 2 -> month2
-            month <= 7 && month % 2 == 1 || month > 7 && month % 2 == 0 -> 31 // 1,3,5,7 и 8,10,12
-            month <= 7 && month != 2 && month % 2 == 0 || month > 7 && month % 2 == 1 -> 30
-            else -> 0
-
-        }
-    else (year % 400 != 0 || year % 100 == 0)
     return when {
         month == 2 -> month2
         month <= 7 && month % 2 == 1 || month > 7 && month % 2 == 0 -> 31 // 1,3,5,7 и 8,10,12

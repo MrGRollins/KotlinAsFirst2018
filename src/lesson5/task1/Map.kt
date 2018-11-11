@@ -239,8 +239,8 @@ fun hasAnagrams(words: List<String>): Boolean {
     val anagrams = words.map { it.toList().sorted() }
 
     for (i in 0 until anagrams.size - 1)
-        for (j in i + 1 until anagrams.size)
-            if (anagrams[i] == anagrams[j])
+        for (k in i + 1 until anagrams.size)
+            if (anagrams[i] == anagrams[k])
                 return true
     return false
 }

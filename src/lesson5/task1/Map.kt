@@ -196,7 +196,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>) = a.keys.r
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.filter { it in b }.toSet().toList()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.intersect(b).toList()
 
 /**
  * Средняя
@@ -207,10 +207,7 @@ fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.filter { it
  * Например:
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
-fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    val chsMap = chars.map { it.toLowerCase() }
-    return word.toLowerCase().all { it in chsMap }
-}
+fun canBuildFrom(chars: List<Char>, word: String): Boolean = word.all { it in chars }
 
 /**
  * Средняя
@@ -235,15 +232,9 @@ fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
  * Например:
  *   hasAnagrams(listOf("тор", "свет", "рот")) -> true
  */
-fun hasAnagrams(words: List<String>): Boolean {
-    val anagrams = words.map { it.toList().sorted() }
+fun hasAnagrams(words: List<String>): Boolean =
+        words.any { word -> word.toCharArray().sorted() in (words - word).map { it.toCharArray().sorted() } }
 
-    for (i in 0 until anagrams.size - 1)
-        for (k in i + 1 until anagrams.size)
-            if (anagrams[i] == anagrams[k])
-                return true
-    return false
-}
 
 /**
  * Сложная

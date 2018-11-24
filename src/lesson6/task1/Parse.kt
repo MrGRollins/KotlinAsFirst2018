@@ -2,9 +2,7 @@
 
 package lesson6.task1
 
-import kotlinx.html.InputType
 import lesson2.task2.daysInMonth
-import java.time.Month
 
 
 /**
@@ -159,7 +157,7 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  */
 fun bestLongJump(jumps: String): Int {
     var max = 0
-    val parts = jumps.split(' ')
+    val parts = jumps.split(" ").filter { it > "0" }
 
     if (parts.isEmpty()) return -1
 
@@ -170,7 +168,6 @@ fun bestLongJump(jumps: String): Int {
     } catch (e: Exception) {
         return -1
     }
-
 
     for (part in parts) {
         val number = part.toInt()
@@ -190,7 +187,27 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var max = 0
+    val parts = jumps.split(" ").filter { it > "0" }
+
+    if (parts.isEmpty()) return -1
+
+    try {
+        for (part in parts) {
+            if (part == "" || part == jumps) throw Exception()
+        }
+    } catch (e: Exception) {
+        return -1
+    }
+
+    for (part in parts) {
+        val number = part.toInt()
+        if (number > max)
+            max = number
+    }
+    return max
+}
 
 /**
  * Сложная

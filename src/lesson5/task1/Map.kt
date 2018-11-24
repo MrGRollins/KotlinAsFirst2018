@@ -113,7 +113,19 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val mapGr = mutableMapOf<Int, List<String>>()
+
+    for ((name, grade) in grades) {
+        if (!mapGr.contains(grade)) mapGr[grade] = mutableListOf(name)
+        else mapGr[grade] = mapGr[grade]!! + name
+    }
+
+    for ((key, value) in mapGr)
+        mapGr[key] = value.sortedDescending()
+
+    return mapGr
+}
 
 /**
  * Простая
@@ -158,7 +170,9 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
     var result = listOf<Pair<String, Double>>()
 
     for ((name, pair) in stuff) {
-        if (pair.first == kind) result += name to pair.second
+        if (pair.first == kind)
+            result += name to pair.second
+
         if (result.isEmpty()) return null
         result.sortedBy { it.second }
     }
@@ -238,7 +252,14 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = word.all { it in ch
  * Например:
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
-fun extractRepeats(list: List<String>): Map<String, Int> = TODO()
+fun extractRepeats(list: List<String>): Map<String, Int> {
+    val map = mutableMapOf<String, Int>()
+
+    for (k in list)
+        map[k] = list.count { it == k }
+
+    return map.filterValues { it > 1 }
+}
 
 /**
  * Средняя

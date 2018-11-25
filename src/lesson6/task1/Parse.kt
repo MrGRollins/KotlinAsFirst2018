@@ -261,7 +261,18 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val numberRom = mapOf("M" to 1000, "CM" to 900, "D" to 500,
+            "CD" to 400, "C" to 100, "XC" to 90, "L" to 50, "XL" to 40,
+            "X" to 10, "IX" to 9, "V" to 5, "IV" to 4, "I" to 1)
+
+    if (Regex("""[^IVXLCDM*]""").containsMatchIn(roman))
+        return -1
+
+    return Regex("CM|CD|XC|XL|IX|IV|M|D|C|L|X|V|I").findAll(roman)
+            .map { numberRom[it.value] }.sumBy { it ?: 0 }
+
+}
 
 /**
  * Очень сложная

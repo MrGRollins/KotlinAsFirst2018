@@ -83,8 +83,8 @@ fun dateStrToDigit(str: String): String {
 
     try {
         mon = monthsY.indexOf(parts[1]) + 1
-        if (mon !in 1..12) throw Exception()
-    } catch (e: Exception) {
+        if (mon !in 1..12) throw NumberFormatException()
+    } catch (e: NumberFormatException) {
         return ""
     }
 
@@ -119,8 +119,8 @@ fun dateDigitToStr(digital: String): String {
 
     try {
         month = monthY.getOrDefault(digitals[1], "")
-        if (month == "") throw Exception()
-    } catch (e: Exception) {
+        if (month == "") throw NumberFormatException()
+    } catch (e: NumberFormatException) {
         return ""
     }
 
@@ -143,7 +143,13 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+
+fun flattenPhoneNumber(phone: String): String =
+        if (Regex("""(\+([-\s]*\d)+[-\s]*)?(\(([-\s]*\d)+[-\s]*\))?([-\s]*\d)+""")
+                        .matches(phone))
+            Regex("""[-\s()]""")
+                    .replace(phone, "")
+        else ""
 
 /**
  * Средняя
@@ -156,27 +162,20 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    var max = 0
-    val parts = jumps.split(" ").filter { it > "0" }
+    val maxJump = Regex("""[-%]""").replace(jumps, "")
 
-    if (parts.isEmpty()) return -1
-
-    try {
-        for (part in parts) {
-            if (part == "") throw Exception()
-        }
-    } catch (e: Exception) {
+    if (Regex("""[^\s0-9]""").containsMatchIn(maxJump))
         return -1
-    }
 
-    for (part in parts) {
-        val number = part.toInt()
-        if (number > max)
-            max = number
+    return maxJump.split("\\s".toRegex()).map {
+        try {
+            it.toInt()
+        } catch (e: NumberFormatException) {
+            -1
+        }
     }
-    return max
+            .max() ?: -1
 }
-
 /**
  * Сложная
  *
@@ -188,25 +187,17 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var max = 0
-    val parts = jumps.split(" ").filter { it > "0" }
+    if (Regex("""[^\d \s+%-]""").containsMatchIn(jumps)) return -1
 
-    if (parts.isEmpty()) return -1
+    val maxJump = Regex("""\d + \s[-%]""").replace(jumps, "")
 
-    try {
-        for (part in parts) {
-            if (part == "" || part == jumps) throw Exception()
+    return maxJump.split(Regex("""[\s+%-]""")).map {
+        try {
+            it.toInt()
+        } catch (e: NumberFormatException) {
+            -1
         }
-    } catch (e: Exception) {
-        return -1
-    }
-
-    for (part in parts) {
-        val number = part.toInt()
-        if (number > max)
-            max = number
-    }
-    return max
+    }.max() ?: -1
 }
 
 /**
@@ -218,7 +209,14 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+
+    return if (Regex("""\d+( [+-] \d+)*""").matches(expression))
+        expression.replace(" ", "")
+                .split(Regex("""(?=[-+])"""))
+                .map { it.toInt() }.sum()
+    else throw IllegalArgumentException()
+}
 
 /**
  * Сложная
@@ -229,7 +227,15 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val text = str.toLowerCase()
+    val rX = Regex("""(\S+) \1""")
+
+    return if (rX.containsMatchIn(text))
+        text.indexOf(rX.find(text)!!.value)
+    else
+        -1
+}
 
 /**
  * Сложная

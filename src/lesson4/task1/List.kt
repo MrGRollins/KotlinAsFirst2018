@@ -322,7 +322,22 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val rom =
+            mapOf("M" to 1000, "CM" to 900, "D" to 500, "CD" to 400, "C" to 100, "XC" to 90,
+                    "L" to 50, "XL" to 40, "X" to 10, "IX" to 9, "V" to 5, "IV" to 4, "I" to 1)
+    var num = n
+    val str = mutableListOf<String>()
+
+    for ((roman, z) in rom) {
+        while (num >= z) {
+            str.add(roman)
+            num -= z
+        }
+    }
+
+    return str.joinToString(separator = "")
+}
 
 /**
  * Очень сложная

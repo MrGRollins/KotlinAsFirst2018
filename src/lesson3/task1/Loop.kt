@@ -84,9 +84,16 @@ fun digitNumber(n: Int): Int {
  * Простая
  *
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
- * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
+ * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(i+2) = fib(i) + fib(i+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var fib = 0
+
+    for (i in 0..n) {
+        fib += i + (i + 1)
+    }
+    return fib
+}
 
 /**
  * Простая
@@ -180,7 +187,7 @@ fun collatzSteps(x: Int): Int {
         step += 1
 
         if (k % 2 == 0)
-            k = k / 2
+            k /= 2
         else
             k = k * 3 + 1
     }
@@ -194,7 +201,19 @@ fun collatzSteps(x: Int): Int {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var n = 1
+    var sin = 0.0
+    var num = eps * 1.1
+    val x0 = x % (2 * PI)
+
+    while (abs(num) >= eps) {
+        num = x0.pow(2 * n - 1) / factorial(2 * n - 1)
+        if (n % 2 == 1) sin += num else sin -= num
+        n++
+    }
+    return sin
+}
 
 /**
  * Средняя
@@ -203,7 +222,19 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var n = 0
+    var cos = 0.0
+    var num = eps * 2
+    val x0 = x % (2 * PI)
+
+    while (abs(num) >= eps) {
+        num = x0.pow(2 * n) / factorial(2 * n)
+        if (n % 2 == 0) cos += num else cos -= num
+        n++
+    }
+    return cos
+}
 
 /**
  * Средняя
@@ -283,6 +314,7 @@ fun squareSequenceDigit(n: Int): Int {
         size += digitNumber(sqrNum)
     } while (size < n)
     if (size == n) return sqrNum % 10
+
     for (j in 1..size - n) {
         sqrNum /= 10
         number = sqrNum % 10

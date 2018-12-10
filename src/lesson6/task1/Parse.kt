@@ -73,25 +73,31 @@ fun main(args: Array<String>) {
  * входными данными.
  */
 fun dateStrToDigit(str: String): String {
-
-    val parts = str.split(' ')
-    val mon: Int
-    val monthsY = listOf(
+    val monthsYear = listOf(
             "января", "февраля", "марта", "апреля",
             "мая", "июня", "июля", "августа",
             "сентября", "октября", "ноября", "декабря")
 
-    try {
-        mon = monthsY.indexOf(parts[1]) + 1
-        if (mon !in 1..12) throw NumberFormatException()
-    } catch (e: NumberFormatException) {
-        return ""
+    return try {
+        if (!Regex("""^\d{1,2} \S+ \d+$""").matches(str)) throw Exception()
+
+        val parts = str.split(" ")
+        val day = parts[0].toInt()
+        val monthsStr = parts[1]
+        val year = parts[2].toInt()
+        val monthNum: Int
+
+        if (monthsStr in monthsYear)
+            monthNum = monthsYear.indexOf(monthsStr) + 1
+        else throw Exception()
+
+        if (day !in 1..daysInMonth(monthNum, year)) throw Exception()
+
+        String.format("%02d.%02d.%d", day, monthNum, year)
+
+    } catch (ex: Exception) {
+        ""
     }
-
-    val d = parts[0].toInt()
-    val y = parts[2].toInt()
-
-    return if (d in 1..daysInMonth(mon, y)) String.format("%02d.%02d.%d", d, mon, y) else ""
 }
 
 /**
@@ -105,30 +111,26 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    val digitals = digital.split(".")
+    val monthsYear = listOf(
+            "января", "февраля", "марта", "апреля",
+            "мая", "июня", "июля", "августа",
+            "сентября", "октября", "ноября", "декабря")
 
-    if (digitals.size > 3) return ""
+    return try {
+        if (!Regex("""^\d{2}.\d{2}.\d+$""").matches(digital)) throw Exception()
 
-    val monthY = mapOf(
-            "01" to "января", "02" to "февраля", "03" to "марта",
-            "04" to "апреля", "05" to "мая", "06" to "июня", "07" to "июля", "08" to "августа",
-            "09" to "сентября", "10" to "октября", "11" to "ноября", "12" to "декабря"
-    )
+        val parts = digital.split(".")
+        val day = parts[0].toInt()
+        val month = parts[1].toInt()
+        val year = parts[2].toInt()
 
-    val month: String
+        if (day !in 1..daysInMonth(month, year) || month !in 1..12) throw Exception()
 
-    try {
-        month = monthY.getOrDefault(digitals[1], "")
-        if (month == "") throw NumberFormatException()
-    } catch (e: NumberFormatException) {
-        return ""
+        String.format("%d %s %d", day, monthsYear[month - 1], year)
+
+    } catch (e: Exception) {
+        ""
     }
-
-    val day = digitals[0].toInt()
-    val year = digitals[2].toInt()
-    val mon = digitals[1].toInt()
-
-    return if (day in 1..daysInMonth(mon, year)) String.format("%d %s %d", day, month, year) else ""
 }
 
 /**
@@ -176,6 +178,7 @@ fun bestLongJump(jumps: String): Int {
     }
             .max() ?: -1
 }
+
 /**
  * Сложная
  *
@@ -262,11 +265,13 @@ fun mostExpensive(description: String): String = TODO()
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
+
     val numberRom = mapOf("M" to 1000, "CM" to 900, "D" to 500,
             "CD" to 400, "C" to 100, "XC" to 90, "L" to 50, "XL" to 40,
             "X" to 10, "IX" to 9, "V" to 5, "IV" to 4, "I" to 1)
 
-    if (Regex("""[^IVXLCDM*]""").containsMatchIn(roman))
+
+    if (Regex("""[^IVXLCDM*]""").containsMatchIn(roman) || roman.isEmpty())
         return -1
 
     return Regex("CM|CD|XC|XL|IX|IV|M|D|C|L|X|V|I").findAll(roman)

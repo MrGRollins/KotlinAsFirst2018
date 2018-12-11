@@ -79,7 +79,7 @@ fun dateStrToDigit(str: String): String {
             "сентября", "октября", "ноября", "декабря")
 
     return try {
-        if (!Regex("""^\d{1,2} \S+ \d+$""").matches(str)) throw Exception()
+        if (!Regex("""^\d{1,2} \S+ \d+$""").matches(str)) throw NumberFormatException()
 
         val parts = str.split(" ")
         val day = parts[0].toInt()
@@ -89,13 +89,12 @@ fun dateStrToDigit(str: String): String {
 
         if (monthsStr in monthsYear)
             monthNum = monthsYear.indexOf(monthsStr) + 1
-        else throw Exception()
+        else throw NumberFormatException()
 
-        if (day !in 1..daysInMonth(monthNum, year)) throw Exception()
+        if (day !in 1..daysInMonth(monthNum, year)) throw NumberFormatException()
+        else String.format("%02d.%02d.%d", day, monthNum, year)
 
-        String.format("%02d.%02d.%d", day, monthNum, year)
-
-    } catch (ex: Exception) {
+    } catch (e: NumberFormatException) {
         ""
     }
 }
@@ -117,18 +116,17 @@ fun dateDigitToStr(digital: String): String {
             "сентября", "октября", "ноября", "декабря")
 
     return try {
-        if (!Regex("""^\d{2}.\d{2}.\d+$""").matches(digital)) throw Exception()
-
+        if (!Regex("""^\d{2}.\d{2}.\d+$""").matches(digital)) throw NumberFormatException()
         val parts = digital.split(".")
         val day = parts[0].toInt()
         val month = parts[1].toInt()
         val year = parts[2].toInt()
 
-        if (day !in 1..daysInMonth(month, year) || month !in 1..12) throw Exception()
+        if (day !in 1..daysInMonth(month, year) || month !in 1..12) throw NumberFormatException()
 
         String.format("%d %s %d", day, monthsYear[month - 1], year)
 
-    } catch (e: Exception) {
+    } catch (e: NumberFormatException) {
         ""
     }
 }
@@ -190,7 +188,8 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    if (Regex("""[^\d \s+%-]""").containsMatchIn(jumps)) return -1
+    if (Regex("""[^\d \s+%-]""").containsMatchIn(jumps) ||
+            !Regex("""[\s+]""").containsMatchIn(jumps)) return -1
 
     val maxJump = Regex("""\d + \s[-%]""").replace(jumps, "")
 
@@ -231,13 +230,20 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val text = str.toLowerCase()
-    val rX = Regex("""(\S+) \1""")
+    var iD = 0
+    str.split(" ")
+            .map {
+                val out = it.toLowerCase() to iD
+                iD += it.length + 1
+                out
+            }
+            .reduce { (first, second), new ->
+                if (first == new.first)
+                    return second
+                new
+            }
 
-    return if (rX.containsMatchIn(text))
-        text.indexOf(rX.find(text)!!.value)
-    else
-        -1
+    return -1
 }
 
 /**
@@ -251,7 +257,26 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше либо равны нуля.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var mostPrice = -1.0
+    var nameDesc = ""
+
+    return try {
+        description
+                .split("; ").map { it.split(" ") }
+
+                .forEach {
+                    if (it[1].toDouble() > mostPrice) {
+                        mostPrice = it[1].toDouble()
+                        nameDesc = it[0]
+                    }
+                }
+        nameDesc
+
+    } catch (e: IndexOutOfBoundsException) {
+        ""
+    }
+}
 
 /**
  * Сложная

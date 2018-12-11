@@ -112,8 +112,7 @@ fun diameter(vararg points: Point): Segment {
         for (k in i + 1 until points.size) {
             val segmentPoint = Segment(points[i], points[k])
 
-
-                maxSegment = segmentPoint
+            maxSegment = segmentPoint
         }
     return maxSegment
 }
@@ -179,19 +178,18 @@ fun lineBySegment(s: Segment): Line = lineByPoints(s.begin, s.end)
  */
 fun lineByPoints(a: Point, b: Point): Line {
 
-    fun angleByPoints(angle: Double): Double {
-        return when {
-            angle < 0 && angle > -PI.ulp -> 0.0
-            angle >= PI -> angle - PI
-            angle >= 0 -> angle
-            else -> angle + PI
-        }
-    }
-
     val angle = atan2(b.y - a.y, b.x - a.x)
 
     return Line(a, angleByPoints(angle))
+}
 
+fun angleByPoints(angle: Double): Double {
+    return when {
+        angle < 0 && angle > -PI.ulp -> 0.0
+        angle >= PI -> angle - PI
+        angle >= 0 -> angle
+        else -> angle + PI
+    }
 }
 
 /**
@@ -199,7 +197,12 @@ fun lineByPoints(a: Point, b: Point): Line {
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val centerByPoints = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+    val angleByPoints = atan2(a.y - b.y, a.x - b.x) + PI / 2
+
+    return Line(centerByPoints, angleByPoints(angleByPoints))
+}
 
 /**
  * Средняя
@@ -207,7 +210,20 @@ fun bisectorByPoints(a: Point, b: Point): Line = TODO()
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    if (circles.size < 2) throw IllegalArgumentException()
+
+    var minCirclePair = circles[0] to circles[1]
+
+    for (i in 0 until circles.size - 1)
+        for (j in i + 1 until circles.size) {
+            val newCirclePair = circles[i] to circles[j]
+
+            if (minCirclePair.first.distance(minCirclePair.second) > newCirclePair.first.distance(newCirclePair.second))
+                minCirclePair = newCirclePair
+        }
+    return minCirclePair
+}
 
 /**
  * Сложная

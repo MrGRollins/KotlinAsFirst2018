@@ -225,7 +225,7 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
     val kingTrajectory = mutableListOf(start)
 
     while (kingTrajectory.last() != end) {
-        
+
         val dX = end.column - kingTrajectory.last().column
         val dY = end.row - kingTrajectory.last().row
         val last = kingTrajectory.last()

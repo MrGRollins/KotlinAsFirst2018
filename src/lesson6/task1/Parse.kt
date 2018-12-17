@@ -228,12 +228,11 @@ fun firstDuplicateIndex(str: String): Int {
                 iD += it.length + 1
                 out
             }
-            .reduce { (first, second), new ->
-                if (first == new.first)
-                    return second
-                new
+            .reduce { one, two ->
+                if (one.first == two.first)
+                    return one.second
+                two
             }
-
     return -1
 }
 
@@ -249,24 +248,21 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть больше либо равны нуля.
  */
 fun mostExpensive(description: String): String {
-    var mostPrice = -1.0
-    var nameDesc = ""
+    if (!Regex("""(?:\S+ \d+(?:\.\d+)?)(?:; \S+ \d+(?:\.\d+)?)*""").matches(description))
+        return ""
 
-    return try {
-        description
-                .split("; ").map { it.split(" ") }
+    var nameExpensive = ""
+    var priceExpensive = 0.0
 
-                .forEach {
-                    if (it[1].toDouble() > mostPrice) {
-                        mostPrice = it[1].toDouble()
-                        nameDesc = it[0]
-                    }
+    description.split(Regex("; "))
+            .map { it.split(' ') }.forEach {
+                if (it[1].toDouble() > priceExpensive) {
+                    priceExpensive = it[1].toDouble()
+                    nameExpensive = it[0]
                 }
-        nameDesc
+            }
 
-    } catch (e: IndexOutOfBoundsException) {
-        ""
-    }
+    return nameExpensive
 }
 
 /**

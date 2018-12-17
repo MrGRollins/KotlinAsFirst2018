@@ -46,15 +46,11 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    val str = listOf("a", "b", "c", "d", "e", "f", "g", "h")
+    if (!Regex("""[a-h][1-8]""").matches(notation)) throw IllegalArgumentException()
+    val row = notation[1] - '0'
+    val col = notation[0] - 'a' + 1
 
-    if (notation.length > 2
-            || !Regex("""[a-h][1-8]""").matches(notation)) throw IllegalArgumentException()
-
-    val column = str.indexOf(notation.first().toString()) + 1
-    val row = notation.last().toString().toInt()
-
-    return Square(column, row)
+    return Square(col, row)
 }
 
 /**
@@ -81,13 +77,13 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if (!end.inside() || !end.inside())
+    if (!end.inside() || !start.inside())
         throw IllegalArgumentException()
 
     var countS = 0
 
     if (start.row != end.row)
-        countS +=1
+        countS += 1
     if (start.column != end.column)
         countS += 1
 
@@ -109,6 +105,9 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> {
+    if (!end.inside() || !end.inside())
+        throw IllegalArgumentException()
+
     val rookTraject = mutableListOf(start)
 
     if (rookTraject.last().column != end.column)

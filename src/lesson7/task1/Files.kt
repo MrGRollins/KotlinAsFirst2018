@@ -79,7 +79,21 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val inputNRead = File(inputName).readText()
+
+    File(outputName).writeText(inputNRead
+            .replace
+            (Regex("""([жчшщ])([ыяю])""", RegexOption.IGNORE_CASE))
+            {
+
+                val chIT = it.groupValues[2][0]
+                it.groupValues[1] + when (chIT.toLowerCase()) {
+                    'ю' -> chIT - 11
+                    'ы' -> chIT - 19
+                    'я' -> chIT - 31
+                    else -> ""
+                }
+            })
 }
 
 /**
@@ -166,7 +180,8 @@ fun top20Words(inputName: String): Map<String, Int> {
     val words = wordRegex
             .findAll(File(inputName)
                     .readText()).groupingBy {
-                it.value.toLowerCase() }
+                it.value.toLowerCase()
+            }
             .eachCount()
 
     return words.keys.sortedByDescending { words[it] }.take(20)
